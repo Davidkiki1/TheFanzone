@@ -12,7 +12,7 @@ def get_players():
 @player_bp.route('/<int:id>', methods=['GET'])
 def get_player(id):
     player = Player.query.get_or_404(id)
-    return player.to_dict(), 200
+    return jsonify(player.to_dict()), 200
 
 @player_bp.route('/', methods=['POST'])
 def create_player():

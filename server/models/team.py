@@ -15,3 +15,13 @@ class Team(db.Model, SerializerMixin):
     fan_posts = db.relationship("FanPost", secondary=fanposts_tags, backref="teams")
 
     serialize_rules = ("-players.team", "-comments.team", "-fan_posts.teams")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "country": self.country,
+            "logo_url": self.logo_url,
+                "players": [player.id for player in self.players],
+                "comments": [comment.id for comment in self.comments],
+            }

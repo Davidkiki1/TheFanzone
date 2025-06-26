@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 
-function FanPostForm({ onAddPost }) {
+function FanPostForm({ onAddPost, user }) {
   const formik = useFormik({
     initialValues: { content: "" },
     validate: (values) => {
@@ -10,10 +10,18 @@ function FanPostForm({ onAddPost }) {
       return errors;
     },
     onSubmit: (values, { resetForm }) => {
+      if (!user) {
+        alert("You must be logged in to post.");
+        return;
+      }
+
       fetch("/fanposts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        credentials: "include", // important for sessions
+        body: JSON.stringify({
+          content: values.content,
+        }),
       })
         .then((res) => res.json())
         .then((newPost) => {
@@ -22,6 +30,10 @@ function FanPostForm({ onAddPost }) {
         });
     },
   });
+
+  if (!user) {
+    return <p style={{ color: "red" }}>Please log in to share a post.</p>;
+  }
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -32,7 +44,9 @@ function FanPostForm({ onAddPost }) {
         placeholder="Share your thoughts..."
         style={{ width: "100%", height: "80px" }}
       />
-      {formik.errors.content && <p style={{ color: "red" }}>{formik.errors.content}</p>}
+      {formik.errors.content && (
+        <p style={{ color: "red" }}>{formik.errors.content}</p>
+      )}
       <button type="submit">Post</button>
     </form>
   );

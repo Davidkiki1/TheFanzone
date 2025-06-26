@@ -10,10 +10,11 @@ flask-sqlalchemy = "3.0.3"
 Werkzeug = "2.2.2"
 sqlalchemy-serializer = "*"
 flask-restful = "*"
-flask-cors = "*"
-flask-migrate = "*"
 faker = "*"
 psycopg2-binary = "*"
+flask-migrate = "*"
+flask-cors = "*"
+flask-session = "*"
 
 [requires]
 python_full_version = "3.8.13"

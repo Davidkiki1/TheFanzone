@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from models import FanPost
 from config import db
 from datetime import datetime
@@ -12,12 +12,16 @@ def get_fanposts():
 
 @fanpost_bp.route('/', methods=['POST'])
 def create_fanpost():
+    user = session.get("user_id")
+    if not user:
+        return jsonify({"error": "Unauthorized. Please log in."}), 401
+
     data = request.get_json()
     post = FanPost(
-        user=data['user'],
+        user=str(user),  # or you can load the User model and attach username if needed
         content=data['content'],
         timestamp=datetime.utcnow().isoformat()
     )
     db.session.add(post)
     db.session.commit()
-    return post.to_dict(), 201
+    return jsonify(post.to_dict()), 201

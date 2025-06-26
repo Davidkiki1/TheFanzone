@@ -9,3 +9,5 @@ function FanPost({ post }) {
     </div>
   );
 }
+
+export default FanPost;

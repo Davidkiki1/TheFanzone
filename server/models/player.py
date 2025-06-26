@@ -14,3 +14,15 @@ class Player(db.Model, SerializerMixin):
     comments = db.relationship("Comment", backref="player", cascade="all, delete")
 
     serialize_rules = ("-team.players", "-comments.player")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "position": self.position,
+            "goals": self.goals,
+            "assists": self.assists,
+            "appearances": self.appearances,
+            "team_id": self.team_id,
+            "comments": [comment.id for comment in self.comments],
+        }

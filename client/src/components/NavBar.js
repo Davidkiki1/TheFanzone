@@ -1,7 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function NavBar() {
+  const { user, logout } = useAuth();
   const linkStyle = {
     margin: "0 10px",
     textDecoration: "none",
@@ -9,10 +11,24 @@ function NavBar() {
   };
 
   return (
-    <nav>
-      <NavLink to="/teams" style={linkStyle}>Teams</NavLink>
-      <NavLink to="/players" style={linkStyle}>Players</NavLink>
-      <NavLink to="/fanfeed" style={linkStyle}>Fan Feed</NavLink>
+    <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div>
+        <NavLink to="/" style={linkStyle}>Home</NavLink>
+        <NavLink to="/teams" style={linkStyle}>Teams</NavLink>
+        <NavLink to="/players" style={linkStyle}>Players</NavLink>
+        <NavLink to="/fanfeed" style={linkStyle}>Fan Feed</NavLink>
+        <NavLink to="/signup" style={linkStyle}>Sign Up</NavLink>
+      </div>
+      <div style={{ marginRight: "20px" }}>
+        {user ? (
+          <>
+            <span>Welcome, {user}!</span>
+            <button onClick={logout} style={{ marginLeft: "10px" }}>Logout</button>
+          </>
+        ) : (
+          <NavLink to="/login" style={linkStyle}>Login</NavLink>
+        )}
+      </div>
     </nav>
   );
 }
