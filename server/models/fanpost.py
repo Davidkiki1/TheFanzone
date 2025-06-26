@@ -9,3 +9,6 @@ class FanPost(db.Model, SerializerMixin):
     timestamp = db.Column(db.String)
 
     serialize_rules = ("-teams.fan_posts",)
+
+    def __repr__(self):
+        return f"<FanPost by {self.user}>"

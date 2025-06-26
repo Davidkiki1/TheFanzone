@@ -26,3 +26,6 @@ class Player(db.Model, SerializerMixin):
             "team_id": self.team_id,
             "comments": [comment.id for comment in self.comments],
         }
+
+    def __repr__(self):
+        return f"<Player {self.name}>"

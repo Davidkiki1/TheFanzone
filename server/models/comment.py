@@ -11,3 +11,6 @@ class Comment(db.Model, SerializerMixin):
     player_id = db.Column(db.Integer, db.ForeignKey("players.id"), nullable=True)
 
     serialize_rules = ("-team.comments", "-player.comments")
+
+    def __repr__(self):
+        return f"<Comment {self.user[:10]}: {self.content[:20]}>"

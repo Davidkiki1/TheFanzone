@@ -1,6 +1,6 @@
 from config import db
 from sqlalchemy_serializer import SerializerMixin
-from .associations import fanposts_tags  # If you have many-to-many
+from .associations import fanposts_tags
 
 class Team(db.Model, SerializerMixin):
     __tablename__ = "teams"
@@ -22,6 +22,9 @@ class Team(db.Model, SerializerMixin):
             "name": self.name,
             "country": self.country,
             "logo_url": self.logo_url,
-                "players": [player.id for player in self.players],
-                "comments": [comment.id for comment in self.comments],
-            }
+            "players": [player.id for player in self.players],
+            "comments": [comment.id for comment in self.comments],
+        }
+
+    def __repr__(self):
+        return f"<Team {self.name}>"
