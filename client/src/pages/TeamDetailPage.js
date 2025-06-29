@@ -11,11 +11,18 @@ function TeamDetailPage() {
 
   useEffect(() => {
     fetch(`/teams/${id}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch team");
+        return res.json();
+      })
       .then((data) => {
         setTeam(data.team);
         setPlayers(data.players);
         setComments(data.comments);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("Unable to load team details.");
       });
   }, [id]);
 

@@ -9,6 +9,7 @@ import TeamDetailPage from "./pages/TeamDetailPage";
 import FanFeedPage from "./pages/FanFeedPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -22,7 +23,14 @@ function App() {
         <Route path="/teams" element={<TeamsPage />} />
         <Route path="/players/:id" element={<PlayerDetailPage />} />
         <Route path="/players" element={<PlayersPage />} />
-        <Route path="/fanfeed" element={<FanFeedPage />} />
+        <Route
+          path="/fanfeed"
+          element={
+            <ProtectedRoute>
+              <FanFeedPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );

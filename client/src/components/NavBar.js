@@ -22,7 +22,7 @@ function NavBar() {
       <div style={{ marginRight: "20px" }}>
         {user ? (
           <>
-            <span>Welcome, {user}!</span>
+            <span>Welcome, {user.username}!</span>
             <button onClick={logout} style={{ marginLeft: "10px" }}>Logout</button>
           </>
         ) : (

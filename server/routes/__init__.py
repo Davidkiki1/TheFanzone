@@ -5,7 +5,6 @@ from .fanpost_routes import fanpost_bp
 from .auth_routes import auth_bp
 
 all_routes = Blueprint('api', __name__)
-
 all_routes.register_blueprint(team_bp, url_prefix="/teams")
 all_routes.register_blueprint(player_bp, url_prefix="/players")
 all_routes.register_blueprint(fanpost_bp, url_prefix="/fanposts")

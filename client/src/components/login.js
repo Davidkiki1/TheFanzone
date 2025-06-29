@@ -23,7 +23,7 @@ function LoginForm({ onLogin }) {
           return r.json();
         })
         .then((data) => {
-          if (onLogin) onLogin(data.username);
+          if (onLogin) onLogin(data); // ✅ pass entire user object
           alert("Login successful!");
           resetForm();
         })

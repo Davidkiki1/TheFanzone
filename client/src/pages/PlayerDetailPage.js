@@ -13,7 +13,10 @@ function PlayerDetailPage() {
       .then((res) => res.json())
       .then((data) => {
         setPlayer(data.player);
-        setComments(data.comments);
+        setComments(data.comments || []);
+      })
+      .catch((err) => {
+        console.error("Failed to load player", err);
       });
   }, [id]);
 
@@ -23,7 +26,11 @@ function PlayerDetailPage() {
     <div>
       <PlayerStats player={player} />
       <h3>Comments</h3>
-      {comments.map((c) => <Comment key={c.id} comment={c} />)}
+      {comments.length === 0 ? (
+        <p>No comments yet.</p>
+      ) : (
+        comments.map((c) => <Comment key={c.id} comment={c} />)
+      )}
     </div>
   );
 }

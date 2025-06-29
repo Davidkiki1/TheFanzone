@@ -8,10 +8,17 @@ function PlayersPage() {
 
   useEffect(() => {
     fetch("/players")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch players");
+        return res.json();
+      })
       .then((data) => {
         setPlayers(data);
         setFilteredPlayers(data);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("Unable to load players.");
       });
   }, []);
 

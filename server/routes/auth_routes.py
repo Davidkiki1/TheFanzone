@@ -2,8 +2,9 @@ from flask import Blueprint, request, jsonify, session
 from config import db
 from models import User
 
-auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
+auth_bp = Blueprint("auth", __name__)
 
+# ✅ Signup Route
 @auth_bp.route("/signup", methods=["POST"])
 def signup():
     data = request.get_json()
@@ -24,6 +25,7 @@ def signup():
 
     return jsonify({"message": "User created successfully", "username": user.username}), 201
 
+# ✅ Login Route (now stores user ID in session)
 @auth_bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
@@ -33,18 +35,23 @@ def login():
     user = User.query.filter_by(username=username).first()
 
     if user and user.check_password(password):
-        session["user_id"] = user.username  # ✅ store session
+        session["user_id"] = user.id  # ✅ store ID not username
         return jsonify({"message": "Login successful", "username": user.username}), 200
     else:
         return jsonify({"error": "Invalid username or password"}), 401
 
+# ✅ Check Session (returns full user info if available)
 @auth_bp.route("/check_session", methods=["GET"])
 def check_session():
-    user = session.get("user_id")
-    if not user:
-        return jsonify({"error": "Unauthorized"}), 401
-    return jsonify({"username": user}), 200
+    user_id = session.get("user_id")
+    user = User.query.get(user_id) if user_id else None
 
+    if user:
+        return jsonify({"username": user.username, "id": user.id}), 200
+    else:
+        return jsonify({"error": "Unauthorized"}), 401
+
+# ✅ Logout Route
 @auth_bp.route("/logout", methods=["POST"])
 def logout():
     session.pop("user_id", None)

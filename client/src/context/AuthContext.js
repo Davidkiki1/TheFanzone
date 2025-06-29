@@ -5,7 +5,8 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  const login = (username) => setUser(username);
+  // Store the full user object instead of just the username
+  const login = (userObj) => setUser(userObj);
   const logout = () => setUser(null);
 
   useEffect(() => {
@@ -14,7 +15,7 @@ export function AuthProvider({ children }) {
         if (res.ok) return res.json();
         throw new Error("Not logged in");
       })
-      .then((data) => login(data.username))
+      .then((data) => login(data)) // ✅ Store full user
       .catch(() => logout());
   }, []);
 

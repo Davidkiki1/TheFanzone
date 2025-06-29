@@ -19,6 +19,7 @@ function LoginPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
+        credentials: "include", // <-- Add this line
       })
         .then((r) => {
           if (!r.ok) throw new Error("Login failed");
