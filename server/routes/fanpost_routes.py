@@ -4,13 +4,13 @@ from config import db
 
 fanpost_bp = Blueprint('fanposts', __name__)
 
-# 🔍 GET all fan posts (newest first)
+# GET all fan posts
 @fanpost_bp.route('/', methods=['GET'])
 def get_fanposts():
     posts = FanPost.query.order_by(FanPost.timestamp.desc()).all()
     return jsonify([post.to_dict(rules=('-user.password_hash',)) for post in posts]), 200
 
-# 📝 CREATE new fan post (requires login)
+# CREATE new fan post 
 @fanpost_bp.route('/', methods=['POST'])
 def create_fanpost():
     user_id = session.get("user_id")
@@ -31,7 +31,7 @@ def create_fanpost():
     db.session.commit()
     return jsonify(post.to_dict(rules=('-user.password_hash',))), 201
 
-# ✏️ UPDATE a fan post (only by owner)
+#   UPDATE a fan post 
 @fanpost_bp.route('/<int:id>', methods=['PATCH'])
 def update_fanpost(id):
     user_id = session.get("user_id")
@@ -51,7 +51,7 @@ def update_fanpost(id):
     db.session.commit()
     return jsonify(post.to_dict(rules=('-user.password_hash',))), 200
 
-# 🗑 DELETE a fan post (only by owner)
+# DELETE a fan post 
 @fanpost_bp.route('/<int:id>', methods=['DELETE'])
 def delete_fanpost(id):
     user_id = session.get("user_id")

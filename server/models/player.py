@@ -20,11 +20,11 @@ class Player(db.Model, SerializerMixin):
     injured = db.Column(db.Boolean)
 
     team_id = db.Column(db.Integer, db.ForeignKey("teams.id"))
-    team = db.relationship("Team", back_populates="players")  # ✅ use back_populates
+    team = db.relationship("Team", back_populates="players")  
 
     comments = db.relationship("Comment", backref="player", cascade="all, delete")
 
-    # Prevent circular references
+
     serialize_rules = ("-comments", "-team.players")
 
     def __repr__(self):

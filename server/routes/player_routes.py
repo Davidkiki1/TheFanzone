@@ -4,13 +4,13 @@ from config import db
 
 player_bp = Blueprint('players', __name__)
 
-# ✅ GET all players
+#  GET all players
 @player_bp.route('/', methods=['GET'])
 def get_players():
     players = Player.query.all()
     return jsonify([player.to_dict() for player in players]), 200
 
-# ✅ GET a single player (with comments)
+# GET a single player (with comments)
 @player_bp.route('/<int:id>', methods=['GET'])
 def get_player(id):
     player = Player.query.get_or_404(id)
@@ -19,7 +19,7 @@ def get_player(id):
         "comments": [c.to_dict() for c in player.comments]
     }), 200
 
-# ✅ POST a new player
+# POST a new player
 @player_bp.route('/', methods=['POST'])
 def create_player():
     data = request.get_json()

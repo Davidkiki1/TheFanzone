@@ -10,14 +10,14 @@ export function AuthProvider({ children }) {
   const logout = () => {
     fetch("http://localhost:5555/auth/logout", {
       method: "POST",
-      credentials: "include", // ✅ send session cookie to backend
-    }).finally(() => setUser(null)); // Clear local state no matter what
+      credentials: "include", 
+    }).finally(() => setUser(null)); 
   };
 
   // 🔁 Run once on app load: check session
   useEffect(() => {
     fetch("http://localhost:5555/auth/check_session", {
-      credentials: "include", // ✅ include cookie so Flask can see session
+      credentials: "include", 
     })
       .then((res) => {
         if (res.ok) return res.json();

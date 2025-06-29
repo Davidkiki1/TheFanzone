@@ -25,7 +25,7 @@ def signup():
 
     return jsonify({"message": "User created successfully", "username": user.username}), 201
 
-# ✅ Login Route (now stores user ID in session)
+# ✅ Login Route 
 @auth_bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
@@ -40,7 +40,7 @@ def login():
     else:
         return jsonify({"error": "Invalid username or password"}), 401
 
-# ✅ Check Session (returns full user info if available)
+# ✅ Check Session 
 @auth_bp.route("/check_session", methods=["GET"])
 def check_session():
     user_id = session.get("user_id")

@@ -12,7 +12,7 @@ class FanPost(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     user = db.relationship("User", backref="fan_posts")
 
-    # Ensures user details (like username) are included, but avoids recursion
+    # Ensures user details (like username) are included.
     serialize_rules = ("-user.fan_posts",)
 
     def __repr__(self):
