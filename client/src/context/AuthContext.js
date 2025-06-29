@@ -5,18 +5,26 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  // Store the full user object instead of just the username
   const login = (userObj) => setUser(userObj);
-  const logout = () => setUser(null);
 
+  const logout = () => {
+    fetch("http://localhost:5555/auth/logout", {
+      method: "POST",
+      credentials: "include", // ✅ send session cookie to backend
+    }).finally(() => setUser(null)); // Clear local state no matter what
+  };
+
+  // 🔁 Run once on app load: check session
   useEffect(() => {
-    fetch("/auth/check_session")
+    fetch("http://localhost:5555/auth/check_session", {
+      credentials: "include", // ✅ include cookie so Flask can see session
+    })
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error("Not logged in");
       })
-      .then((data) => login(data)) // ✅ Store full user
-      .catch(() => logout());
+      .then((userData) => login(userData)) // ✅ store full user object
+      .catch(() => logout()); // Clear session if invalid
   }, []);
 
   return (

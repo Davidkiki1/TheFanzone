@@ -16,14 +16,26 @@ function LoginForm({ onLogin }) {
       fetch("http://localhost:5555/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // ✅ Enables session cookie
         body: JSON.stringify(values),
       })
         .then((r) => {
           if (!r.ok) throw new Error("Login failed");
           return r.json();
         })
-        .then((data) => {
-          if (onLogin) onLogin(data); // ✅ pass entire user object
+        .then(() => {
+          // ✅ Now verify the session and get full user data
+          return fetch("http://localhost:5555/auth/check_session", {
+            method: "GET",
+            credentials: "include", // ✅ Required for session
+          });
+        })
+        .then((r) => {
+          if (!r.ok) throw new Error("Session check failed");
+          return r.json();
+        })
+        .then((userData) => {
+          if (onLogin) onLogin(userData);
           alert("Login successful!");
           resetForm();
         })

@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 
 function NavBar() {
   const { user, logout } = useAuth();
+
   const linkStyle = {
     margin: "0 10px",
     textDecoration: "none",
@@ -11,18 +12,19 @@ function NavBar() {
   };
 
   return (
-    <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 20px" }}>
       <div>
         <NavLink to="/" style={linkStyle}>Home</NavLink>
         <NavLink to="/teams" style={linkStyle}>Teams</NavLink>
         <NavLink to="/players" style={linkStyle}>Players</NavLink>
         <NavLink to="/fanfeed" style={linkStyle}>Fan Feed</NavLink>
-        <NavLink to="/signup" style={linkStyle}>Sign Up</NavLink>
+        {!user && <NavLink to="/signup" style={linkStyle}>Sign Up</NavLink>}
       </div>
-      <div style={{ marginRight: "20px" }}>
+
+      <div>
         {user ? (
           <>
-            <span>Welcome, {user.username}!</span>
+            <span style={{ fontWeight: "bold" }}>Welcome, {user.username}!</span>
             <button onClick={logout} style={{ marginLeft: "10px" }}>Logout</button>
           </>
         ) : (
