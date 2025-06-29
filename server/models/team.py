@@ -8,9 +8,10 @@ class Team(db.Model, SerializerMixin):
     name = db.Column(db.String, nullable=False)
     country = db.Column(db.String)
     logo_url = db.Column(db.String)
+    year_created = db.Column(db.Integer)
+    trophies = db.Column(db.Integer)
 
-    players = db.relationship("Player", back_populates="team", cascade="all, delete")  # ✅ match back_populates
-
+    players = db.relationship("Player", back_populates="team", cascade="all, delete")
     comments = db.relationship("Comment", backref="team", cascade="all, delete")
     fan_posts = db.relationship("FanPost", secondary="fanposts_tags", backref="teams")
 

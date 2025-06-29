@@ -20,21 +20,40 @@ with app.app_context():
     print("🌱 Seeding teams and players...")
     positions = ["Goalkeeper", "Defender", "Midfielder", "Winger", "Striker"]
     countries = ["England", "Spain", "Germany", "Italy", "France", "Netherlands", "Portugal"]
-    team_names = [
-        "Arsenal", "Barcelona", "Bayern Munich", "Juventus", "PSG", "Real Madrid", 
-        "Manchester City", "Inter Milan", "Chelsea", "AC Milan", "Atletico Madrid", 
-        "Ajax", "Napoli", "Sevilla", "Tottenham", "Dortmund", "RB Leipzig", 
-        "Lille", "Roma", "Benfica"
-    ]
+
+    team_data = {
+        "Arsenal": (1886, 48, "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg"),
+        "Barcelona": (1899, 97, "https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg"),
+        "Bayern Munich": (1900, 80, "https://upload.wikimedia.org/wikipedia/en/1/1f/FC_Bayern_München_logo_%282017%29.svg"),
+        "Juventus": (1897, 68, "https://upload.wikimedia.org/wikipedia/en/3/3e/Juventus_Turin.svg"),
+        "PSG": (1970, 47, "https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg"),
+        "Real Madrid": (1902, 101, "https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg"),
+        "Manchester City": (1880, 35, "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg"),
+        "Inter Milan": (1908, 42, "https://upload.wikimedia.org/wikipedia/en/0/05/Inter_Milan.svg"),
+        "Chelsea": (1905, 34, "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg"),
+        "AC Milan": (1899, 49, "https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_of_AC_Milan.svg"),
+        "Atletico Madrid": (1903, 33, "https://upload.wikimedia.org/wikipedia/en/f/f4/Atletico_Madrid_2017_logo.svg"),
+        "Ajax": (1900, 76, "https://upload.wikimedia.org/wikipedia/en/7/79/Ajax_Amsterdam.svg"),
+        "Napoli": (1926, 15, "https://upload.wikimedia.org/wikipedia/en/2/2d/SSC_Napoli.svg"),
+        "Sevilla": (1890, 18, "https://upload.wikimedia.org/wikipedia/en/5/5f/Sevilla_fc_logo.svg"),
+        "Tottenham": (1882, 26, "https://upload.wikimedia.org/wikipedia/en/b/b4/Tottenham_Hotspur.svg"),
+        "Dortmund": (1909, 34, "https://upload.wikimedia.org/wikipedia/commons/6/67/Borussia_Dortmund_logo.svg"),
+        "RB Leipzig": (2009, 2, "https://upload.wikimedia.org/wikipedia/en/0/04/RB_Leipzig_2014_logo.svg"),
+        "Lille": (1944, 6, "https://upload.wikimedia.org/wikipedia/en/thumb/f/fd/Lille_OSC_2018_logo.svg/1200px-Lille_OSC_2018_logo.svg.png"),
+        "Roma": (1927, 15, "https://upload.wikimedia.org/wikipedia/en/f/f7/AS_Roma_logo_%282017%29.svg"),
+        "Benfica": (1904, 84, "https://upload.wikimedia.org/wikipedia/en/8/89/SL_Benfica_logo.svg")
+    }
 
     teams = []
     players = []
 
-    for team_name in team_names:
+    for team_name, (year, trophies, logo) in team_data.items():
         team = Team(
             name=team_name,
             country=choice(countries),
-            logo_url=fake.image_url()
+            logo_url=logo,
+            year_created=year,
+            trophies=trophies
         )
         db.session.add(team)
         teams.append(team)

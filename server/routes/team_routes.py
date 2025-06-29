@@ -13,6 +13,8 @@ def get_teams():
             "name": team.name,
             "country": team.country,
             "logo_url": team.logo_url,
+            "year_created": team.year_created,
+            "trophies": team.trophies,
             "players": [player.id for player in team.players],
             "comments": [comment.id for comment in team.comments],
         } for team in teams
@@ -22,10 +24,14 @@ def get_teams():
 def get_team(id):
     team = Team.query.get_or_404(id)
     return jsonify({
-        "id": team.id,
-        "name": team.name,
-        "country": team.country,
-        "logo_url": team.logo_url,
+        "team": {
+            "id": team.id,
+            "name": team.name,
+            "country": team.country,
+            "logo_url": team.logo_url,
+            "year_created": team.year_created,
+            "trophies": team.trophies,
+        },
         "players": [
             {
                 "id": player.id,
@@ -51,7 +57,9 @@ def create_team():
     team = Team(
         name=data['name'],
         country=data.get('country'),
-        logo_url=data.get('logo_url')
+        logo_url=data.get('logo_url'),
+        year_created=data.get('year_created'),
+        trophies=data.get('trophies')
     )
     db.session.add(team)
     db.session.commit()
@@ -60,6 +68,8 @@ def create_team():
         "name": team.name,
         "country": team.country,
         "logo_url": team.logo_url,
+        "year_created": team.year_created,
+        "trophies": team.trophies,
         "players": [],
         "comments": [],
     }), 201
