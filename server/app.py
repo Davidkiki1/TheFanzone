@@ -21,11 +21,13 @@ from routes.team_routes import team_bp
 from routes.player_routes import player_bp
 from routes.fanpost_routes import fanpost_bp
 from routes.auth_routes import auth_bp
+from routes.dev_routes import dev_bp
 
 app.register_blueprint(team_bp, url_prefix="/teams")
 app.register_blueprint(player_bp, url_prefix="/players")
 app.register_blueprint(fanpost_bp, url_prefix="/fanposts")
 app.register_blueprint(auth_bp, url_prefix="/auth")
+app.register_blueprint(dev_bp)
 
 CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
 
