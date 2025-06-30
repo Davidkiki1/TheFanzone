@@ -8,7 +8,7 @@ class User(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     _password_hash = db.Column(db.String, nullable=False)
-    is_admin = db.Column(db.Boolean, default=False)
+    is_dev = db.Column(db.Boolean, default=False)  # ✅ Renamed from is_admin to is_dev
 
     def set_password(self, password):
         self._password_hash = generate_password_hash(password)
@@ -20,7 +20,7 @@ class User(db.Model, SerializerMixin):
         return {
             "id": self.id,
             "username": self.username,
-            "is_admin": self.is_admin
+            "is_dev": self.is_dev  # ✅ Match frontend context
         }
 
     def __repr__(self):

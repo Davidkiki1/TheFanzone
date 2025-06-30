@@ -181,6 +181,44 @@ input:focus, textarea:focus {
   outline: none;
 }
 
+/* === Developer Dashboard === */
+.dev-dashboard {
+  background: rgba(10, 25, 47, 0.9);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 255, 148, 0.2);
+  margin-top: 2rem;
+  color: var(--color-text-dark);
+}
+
+.dev-dashboard h2 {
+  color: var(--color-accent);
+  margin-bottom: 1.5rem;
+}
+
+.dev-section {
+  background: rgba(28, 59, 87, 0.6);
+  border-left: 4px solid var(--color-secondary);
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+}
+
+.dev-section h3 {
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.dev-section input, .dev-section select {
+  margin-top: 0.5rem;
+  background-color: rgba(20, 40, 60, 0.7);
+}
+
+.dev-section button {
+  margin-top: 1rem;
+}
+
 /* === Animations === */
 @keyframes fadeIn {
   from {
@@ -211,4 +249,56 @@ input:focus, textarea:focus {
   .card {
     width: 100%;
   }
+
+  .dev-dashboard {
+    padding: 1rem;
+  }
+
+  .dev-section {
+    padding: 1rem;
+  }
+}
+
+/* === Dev Login Page === */
+.dev-login-container {
+  max-width: 500px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: rgba(15, 30, 45, var(--glass-opacity));
+  backdrop-filter: blur(var(--glass-blur));
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  color: var(--color-text-dark);
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.dev-login-container h2 {
+  text-align: center;
+  color: var(--color-accent);
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.dev-login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.dev-login-form input {
+  margin-bottom: 1rem;
+  background-color: rgba(20, 40, 60, 0.7);
+  border: 1px solid var(--color-secondary);
+  color: var(--color-text-dark);
+}
+
+.dev-login-form button {
+  background: linear-gradient(to right, var(--color-accent), var(--color-secondary));
+  color: var(--color-text-light);
+  box-shadow: 0 5px 15px rgba(255, 77, 77, 0.4);
+  font-weight: bold;
+}
+
+.dev-login-form button:hover {
+  box-shadow: 0 10px 25px rgba(255, 77, 77, 0.6);
+  transform: translateY(-3px);
 }

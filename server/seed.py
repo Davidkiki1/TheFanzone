@@ -16,6 +16,7 @@ with app.app_context():
     FanPost.query.delete()
     Team.query.delete()
     User.query.delete()
+    db.session.commit()  # Commit deletions
 
     print("🌱 Seeding teams and players...")
     positions = ["Goalkeeper", "Defender", "Midfielder", "Winger", "Striker"]
@@ -44,21 +45,22 @@ with app.app_context():
         "Benfica": (1904, 84, "https://upload.wikimedia.org/wikipedia/en/8/89/SL_Benfica_logo.svg")
     }
 
-    teams = []
-    players = []
+    team_ids = []
+    player_ids = []
 
-    for team_name, (year, trophies, logo) in team_data.items():
+    for name, (year, trophies, logo) in team_data.items():
         team = Team(
-            name=team_name,
+            name=name,
             country=choice(countries),
             logo_url=logo,
             year_created=year,
             trophies=trophies
         )
         db.session.add(team)
-        teams.append(team)
+        db.session.flush()  # flush to get team.id
+        team_ids.append(team.id)
 
-        for _ in range(11):  # 11 players per team
+        for _ in range(11):
             player = Player(
                 name=fake.name(),
                 position=choice(positions),
@@ -71,12 +73,14 @@ with app.app_context():
                 yellow_cards=randint(0, 10),
                 red_cards=randint(0, 3),
                 age=randint(18, 36),
-                team=team
+                team_id=team.id
             )
-            players.append(player)
             db.session.add(player)
+            db.session.flush()
+            player_ids.append(player.id)
 
     db.session.commit()
+    print(f"✅ Seeded {len(team_ids)} teams and {len(player_ids)} players.")
 
     print("🌱 Seeding users...")
     users = []
@@ -85,32 +89,36 @@ with app.app_context():
         user.set_password("password123")
         db.session.add(user)
         users.append(user)
+
+    # Corrected: use is_dev instead of is_admin
+    admin = User(username="admin", is_dev=True)
+    admin.set_password("adminpass")
+    db.session.add(admin)
+    users.append(admin)
+
     db.session.commit()
+    print(f"✅ Seeded {len(users)} users (incl. 1 admin).")
 
     print("🌱 Seeding fan posts...")
     fan_contents = [
-        "Supporting this team is a rollercoaster!",
-        "Unbelievable matchday experience!",
-        "We need to buy new defenders ASAP.",
-        "What a tactical masterclass today!",
-        "Emotional win for the lads!",
-        "Ref ruined the game.",
-        "Our midfield is world class!",
-        "Love this club forever.",
-        "We’re going to win the league!",
-        "Hope the manager signs a new contract."
+        "Supporting this team is a rollercoaster!", "Unbelievable matchday experience!",
+        "We need to buy new defenders ASAP.", "What a tactical masterclass today!",
+        "Emotional win for the lads!", "Ref ruined the game.",
+        "Our midfield is world class!", "Love this club forever.",
+        "We’re going to win the league!", "Hope the manager signs a new contract."
     ]
     for _ in range(300):
-        fan_post = FanPost(
+        post = FanPost(
             user=choice(users),
             content=choice(fan_contents),
             timestamp=datetime.utcnow() - timedelta(days=randint(0, 60))
         )
-        db.session.add(fan_post)
+        db.session.add(post)
     db.session.commit()
+    print("✅ Seeded 300 fan posts.")
 
     print("🌱 Seeding comments...")
-    sample_contents = [
+    comment_contents = [
         "Great match!", "Terrible ref decision.", "That was a banger goal.",
         "Defending was poor today.", "We deserved the win.", "What a comeback!",
         "Fantastic team chemistry.", "Can't believe that miss.", "Clean sheet again!",
@@ -119,11 +127,12 @@ with app.app_context():
     for _ in range(150):
         comment = Comment(
             user=choice(users).username,
-            content=choice(sample_contents),
-            team_id=choice(teams).id,
-            player_id=choice(players).id
+            content=choice(comment_contents),
+            team_id=choice(team_ids),
+            player_id=choice(player_ids)
         )
         db.session.add(comment)
     db.session.commit()
 
-    print("✅ Huge seeding complete!")
+    print("✅ Seeded 150 comments.")
+    print("🎉 Database seeding complete!")

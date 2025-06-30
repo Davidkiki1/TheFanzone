@@ -9,6 +9,8 @@ import TeamDetailPage from "./pages/TeamDetailPage";
 import FanFeedPage from "./pages/FanFeedPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import DevLoginPage from "./pages/DevLoginPage"; // ✅ Added
+import DevDashboardPage from "./pages/DevDashboardPage"; // ✅ Added
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -16,13 +18,13 @@ function App() {
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/teams/:id" element={<TeamDetailPage />} />
         <Route path="/teams" element={<TeamsPage />} />
-        <Route path="/players/:id" element={<PlayerDetailPage />} />
+        <Route path="/teams/:id" element={<TeamDetailPage />} />
         <Route path="/players" element={<PlayersPage />} />
+        <Route path="/players/:id" element={<PlayerDetailPage />} />
         <Route
           path="/fanfeed"
           element={
@@ -31,6 +33,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/dev"
+          element={
+            <ProtectedRoute devOnly={true}>
+              <DevDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/dev-login" element={<DevLoginPage />} /> {/* ✅ Dev login route */}
       </Routes>
     </Router>
   );
