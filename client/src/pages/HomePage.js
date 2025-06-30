@@ -3,8 +3,8 @@ import React from "react";
 function HomePage() {
   return (
     <div>
-      <h1>Welcome to Fanzone Tracker!</h1>
-      <p>Select a page from the navigation bar.</p>
+      <h1>Welcome to The Fanzone!</h1>
+      <p>This is the ultimate Fan Experience platform.</p>
     </div>
   );
 }

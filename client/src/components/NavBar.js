@@ -14,7 +14,6 @@ function NavBar() {
   return (
     <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 20px" }}>
       <div>
-        <img src="/Fanzone.png" alt="Fanzone logo" style={{ height: "40px" }} />
         <NavLink to="/" style={linkStyle}>Home</NavLink>
         <NavLink to="/teams" style={linkStyle}>Teams</NavLink>
         <NavLink to="/players" style={linkStyle}>Players</NavLink>
